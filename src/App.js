@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import SignUp from "./Components/userAuth/Signup";
+import Welcome from "./Components/Pages/Welcome";
+import { useSelector, useDispatch } from "react-redux";
+import { Route, Switch, Redirect } from "react-router-dom/cjs/react-router-dom";
 
 function App() {
+  const auth = useSelector((state) => state.auth.isAuthenticated);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+    <Route path="/" exact>
+      <Redirect to="/auth" />
+    </Route>
+    <Route path="/auth">
+      <SignUp />
+    </Route>
+    {auth && (
+      <Route path="/welcome">
+        <Welcome />
+      </Route>
+    )}
+    <Route path="*">
+      <Redirect to="/auth" />
+    </Route>
+  </Switch>
   );
 }
 
